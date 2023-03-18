@@ -2,8 +2,10 @@ import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 import mongoose from "mongoose";
+import morgan from "morgan";
 
 const app = express();
+app.use(morgan("tiny"));
 
 mongoose
   .connect(process.env.MONGODB_URI as string, { dbName: "eshop-database" })
