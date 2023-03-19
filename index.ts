@@ -3,11 +3,13 @@ dotenv.config();
 import express from "express";
 import mongoose from "mongoose";
 import morgan from "morgan";
+import cors from "cors";
 import productsRoute from "./routes/products";
 
 const app = express();
+app.use(cors);
+app.options("*", cors());
 app.use(morgan("tiny"));
-
 app.use("/products", productsRoute);
 
 mongoose
