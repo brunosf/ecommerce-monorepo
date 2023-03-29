@@ -1,12 +1,12 @@
 import { model, Schema } from "mongoose";
 
-interface Review {
+interface IReview {
   avatar: string;
   name: string;
   review: string;
 }
 
-interface Product {
+interface IProduct {
   _id: string;
   image?: string;
   brand: string;
@@ -19,7 +19,7 @@ interface Product {
   category: {
     $oid: string;
   };
-  reviews: Review[];
+  reviews: IReview[];
   countInStock: number;
   __v: number;
   richDescription?: string;
@@ -27,7 +27,7 @@ interface Product {
   dateCreated?: Date;
 }
 
-const productSchema = new Schema<Product>({
+const productSchema = new Schema<IProduct>({
   name: {
     type: String,
     required: true,
@@ -59,7 +59,7 @@ const productSchema = new Schema<Product>({
   },
   category: {
     type: Schema.Types.ObjectId,
-    ref: "category",
+    ref: "Category",
     required: true,
   },
   countInStock: {
@@ -86,4 +86,10 @@ const productSchema = new Schema<Product>({
   },
 });
 
-export const product = model<Product>("products", productSchema);
+productSchema.virtual("id").get(function () {
+  return this._id.toString();
+});
+
+productSchema.set("toJSON", { virtuals: true });
+
+export const Product = model<IProduct>("Product", productSchema);
