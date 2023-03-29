@@ -3,14 +3,18 @@ dotenv.config();
 import express from "express";
 import mongoose from "mongoose";
 import morgan from "morgan";
-import cors from "cors";
+// import cors from "cors";
 import productsRoute from "./routes/products";
+import categoriesRoute from "./routes/categories";
 
 const app = express();
-app.use(cors);
-app.options("*", cors());
+// app.use(cors);
+// app.options("*", cors());
 app.use(morgan("tiny"));
+app.use(express.json());
+
 app.use("/products", productsRoute);
+app.use("/categories", categoriesRoute);
 
 mongoose
   .connect(process.env.MONGODB_URI as string, { dbName: "eshop-database" })
